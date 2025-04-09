@@ -10,10 +10,23 @@ Modify the number of repetitions in the simulation to 100 (from the original 100
 
 Alter the code so that it is reproducible. Describe the changes you made to the code and how they affected the reproducibility of the script file. The output does not need to match Whitby’s original blogpost/graphs, it just needs to produce the same output when run multiple times
 
-# Author: YOUR NAME
+# Author: Aidan Campbell
 
 ```
-Please write your explanation here...
+P1
+I think there are three instances of sampling (?) but I am confident that the latter two I outline (both instances of contact tracing) are samples.
+For the first, the initial infection sampling defined by the variable "infected_indices" using the funtion np.random.choice samples members of the population and adds the trait infected (via ATTACK_RATE) at a probability of 10% (i.e., ~100 ppl). I'm less sure of this because it seems to be absolute. Everyone sampled by this funtion is infected. So, it's the "population" of infected people, but a sample of the original population. This is the "iid" step of the blog - each person has a 10% chance of infection. It would be a uniform distribution that's discrete.
+The second is the primary contact tracing portion. This usess the function np.random.rand to randomly select ONLY infected people to be successfully traced at a rate of TRACE_SUCCESS (20%). This sample is also ~100 people as you've sampled each infected person. TRACE_SUCCESS determines if "you" will successfully trace their cotanct back to a particular event/source. It corresponds with the part of the blog post outlining the imperfections of contact-tracing (i.e., there's only a 20% chance of the infection being traced). This would be a binomial distribution.
+The final instance is the follow-up/secondary trace. This part uses the .value_counts and .index to count the trace cases by event and then filters all events with 2 or more traces. Because of the TRACE_SUCCESS rate of 0.2, it'd be about 20 traced cases. This corresponds with the portion of the blog post assuming that if 2 or more cases are found to trace to the same event, an effort would be made to test anyone attending that event (leading to all infection from that event being identified). Not sure about this distribution, it's a sample of a binomial distribution which was sampled from a uniform distribution. Binomial as well would be my guess.
+
+P2
+After running the script, it appears that the graph mostly reproduces the blog post's graph, albeit skewed right. That is, the graph demonstrates it's highly likely that we would detect any infection occurring at an event like a wedding as opposed to a brunch.
+
+P3
+Reducing the number of repititions, of course, leads to higher variability in observed distributions. When we increase that number, we better approximate the expected "true" values. The distributions observed here centered randomly around proportions such as 0.15 or 0.4 - though many did land on 0.2-0.25.
+
+P4
+I set the random.seed to 12321 as I lacked creativity to find a more meaningful number. This just sets operations using RNG to the same starting point (as per comment, not sure what that means exactly - but I understand the essence of it). This ensures that the outputs remain the same each run.
 
 ```
 
