@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+# Random seed would make all the random operations/functions 
+# using RNG to replicate (I don't fully understand how it works tbh, 
+# but I always use it to replicate simulations)
+np.random.seed(12321)
 
 # Note: Suppressing FutureWarnings to maintain a clean output. This is specifically to ignore warnings about
 # deprecated features in the libraries we're using (e.g., 'use_inf_as_na' option in Pandas, used by Seaborn),
@@ -73,8 +77,8 @@ props_df = pd.DataFrame(results, columns=["Infections", "Traces"])
 
 # Plotting the results
 plt.figure(figsize=(10, 6))
-sns.histplot(props_df['Infections'], color="blue", alpha=0.75, binwidth=0.05, kde=False, label='Infections from Weddings')
-sns.histplot(props_df['Traces'], color="red", alpha=0.75, binwidth=0.05, kde=False, label='Traced to Weddings')
+sns.histplot(props_df['Infections'], color="blue", alpha=0.75, binwidth=0.01, kde=False, label='Infections from Weddings') # This doesn't help with replicability (though it might communicate it better). I just like the look of tighter bins.
+sns.histplot(props_df['Traces'], color="red", alpha=0.75, binwidth=0.01, kde=False, label='Traced to Weddings')
 plt.xlabel("Proportion of cases")
 plt.ylabel("Frequency")
 plt.title("Impact of Contact Tracing on Perceived Infection Sources")
